@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pain Association of Maldives</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <span class="brand" data-i18n-key="site.name"></span>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle">Dhivehi</button>
+      <a href="#" class="admin-link" id="adminLink">Admin</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HOME ============ -->
+<div class="view active" id="view-home">
+  <section class="hero">
+    <div class="container">
+      <div>
+        <h1 id="heroTitle">Care that starts with understanding your pain</h1>
+        <p class="lede" id="heroLede">
+          The Pain Association of Maldives shares medical information on pain and treatment,
+          and brings the community together through events.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#" data-nav="medical" data-i18n="hero.cta1">Learn about your condition</a>
+          <a class="btn btn-secondary" href="#" data-nav="events" data-i18n="hero.cta2">See news</a>
+        </div>
+      </div>
+      <img class="hero-image" id="heroImage" src="images/pain-hero.png" alt="Person holding their side, highlighting the area of pain">
+
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-heading" data-i18n="home.recentHeading">Recent posts</h2>
+      <div class="card-grid" id="homeRecentGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ MEDICAL LIST ============ -->
+<div class="view" id="view-medical">
+  <section>
+    <div class="container">
+      <h2 class="section-heading" data-i18n="medical.heading">Pain &amp; Treatment</h2>
+      <div class="topic-pills" id="topicPills"></div>
+      <div class="card-grid" id="medicalGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ EVENTS LIST ============ -->
+<div class="view" id="view-events">
+  <section>
+    <div class="container">
+      <h2 class="section-heading" data-i18n="events.heading">News</h2>
+      <div class="card-grid" id="eventsGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ CONTACT (includes About) ============ -->
+<div class="view" id="view-contact">
+  <section>
+    <div class="container">
+      <h2 data-i18n="contact.heading">Contact</h2>
+      <p style="max-width:68ch" id="contactBody"></p>
+      <p id="contactDetails"></p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ POST DETAIL ============ -->
+<div class="view" id="view-post">
+  <div class="post-detail">
+    <div class="container" id="postContainer"></div>
+  </div>
+</div>
+
+<!-- ============ ADMIN LOGIN ============ -->
+<div class="view" id="view-admin-login">
+  <div class="container">
+    <div class="auth-shell">
+      <h2>Admin sign in</h2>
+      <div class="field">
+        <label for="adminUsername">Email</label>
+        <input type="email" id="adminUsername" value="afcowitz+admin1@gmail.com">
+      </div>
+      <div class="field">
+        <label for="adminPassword">Password</label>
+        <div class="password-field-wrap">
+          <input type="password" id="adminPassword" value="password">
+          <button type="button" class="password-toggle" id="togglePasswordBtn">Show</button>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:var(--color-ink-soft); margin-top:-10px;">Fields are pre-filled with test credentials for now.</p>
+      <button class="btn btn-primary" id="adminLoginBtn" style="width:100%">Sign in</button>
+      <div class="form-error" id="adminLoginError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN DASHBOARD ============ -->
+<div class="view" id="view-admin-dashboard">
+  <div class="admin-bar">
+    <div class="container">
+      <span>Signed in as <strong id="adminWhoAmI"></strong></span>
+      <button class="btn btn-secondary btn-small" id="adminLogoutBtn">Sign out</button>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+        <h2 style="margin:0">Posts</h2>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-secondary" id="editSiteContentBtn">Edit site content</button>
+          <button class="btn btn-primary" id="newPostBtn">New post</button>
+        </div>
+      </div>
+      <div id="adminPostList"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ ADMIN POST EDITOR ============ -->
+<div class="view" id="view-admin-editor">
+  <div class="admin-bar">
+    <div class="container">
+      <span id="editorHeading">New post</span>
+      <button class="btn btn-secondary btn-small" data-nav="admin-dashboard">Back to posts</button>
+    </div>
+  </div>
+  <section>
+    <div class="container" style="max-width:760px">
+
+      <div class="field">
+        <label>Category</label>
+        <select id="editCategory">
+          <option value="medical">Pain &amp; Treatment</option>
+          <option value="events">Events</option>
+        </select>
+      </div>
+
+      <div class="field" id="editTopicField">
+        <label>Topic</label>
+        <select id="editTopic"></select>
+      </div>
+
+      <div class="field">
+        <label>Title (English)</label>
+        <input type="text" id="editTitleEn">
+      </div>
+      <div class="field">
+        <label>Title (Dhivehi)</label>
+        <input type="text" id="editTitleDv" dir="rtl" class="dv-text">
+      </div>
+      <p style="font-size:0.85rem; color:var(--color-ink-soft); margin-top:-10px;">
+        Fill in whichever language(s) this post is written in — English only, Dhivehi only, or both.
+      </p>
+
+      <div class="field">
+        <label>Excerpt (English) — shown in listing cards</label>
+        <textarea id="editExcerptEn"></textarea>
+      </div>
+      <div class="field">
+        <label>Excerpt (Dhivehi)</label>
+        <textarea id="editExcerptDv" dir="rtl" class="dv-text"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Thumbnail image — shown on listing cards</label>
+        <img id="editThumbnailPreview" class="settings-image-preview" src="" alt="" style="display:none">
+        <input type="file" id="editThumbnailUpload" accept="image/*">
+        <input type="text" id="editThumbnail" placeholder="https://..." style="margin-top:8px">
+      </div>
+
+      <div class="field">
+        <label>Gallery placement</label>
+        <select id="editGalleryPosition">
+          <option value="none">No gallery</option>
+          <option value="top">Gallery at top of post</option>
+          <option value="bottom">Gallery at bottom of post</option>
+        </select>
+      </div>
+      <div class="field" id="editGalleryImagesField" style="display:none">
+        <label>Gallery images</label>
+        <input type="file" id="galleryUploadInput" accept="image/*" multiple>
+        <textarea id="editGalleryImages" placeholder="https://example.com/photo1.jpg" style="margin-top:8px" rows="3"></textarea>
+        <p style="font-size:0.8rem; color:var(--color-ink-soft); margin-top:6px;">
+          Uploaded photos are added below automatically — you can also paste external URLs directly, one per line.
+        </p>
+      </div>
+
+      <h3 style="margin-top:32px">Post content</h3>
+      <p style="color:var(--color-ink-soft); font-size:0.9rem; margin-top:-8px;">
+        Build the post as a sequence of text and image blocks, in the order they should appear.
+      </p>
+
+      <div id="blockEditorList"></div>
+
+      <div class="add-block-actions">
+        <button class="btn btn-secondary btn-small" id="addTextBlockBtn">+ Add text</button>
+        <button class="btn btn-secondary btn-small" id="addImageBlockBtn">+ Add image</button>
+      </div>
+
+      <div style="margin-top:28px; display:flex; gap:12px;">
+        <button class="btn btn-primary" id="savePostBtn">Save post</button>
+        <button class="btn btn-secondary" data-nav="admin-dashboard">Cancel</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ ADMIN SITE CONTENT EDITOR ============ -->
+<div class="view" id="view-admin-site">
+  <div class="admin-bar">
+    <div class="container">
+      <span>Edit site content</span>
+      <button class="btn btn-secondary btn-small" data-nav="admin-dashboard">Back to posts</button>
+    </div>
+  </div>
+  <section>
+    <div class="container" style="max-width:760px">
+
+      <h3>Landing page</h3>
+
+      <div class="field">
+        <label>Headline (English)</label>
+        <input type="text" id="siteHeroTitleEn">
+      </div>
+      <div class="field">
+        <label>Headline (Dhivehi)</label>
+        <input type="text" id="siteHeroTitleDv" dir="rtl" class="dv-text">
+      </div>
+
+      <div class="field">
+        <label>Subtext (English)</label>
+        <textarea id="siteHeroLedeEn"></textarea>
+      </div>
+      <div class="field">
+        <label>Subtext (Dhivehi)</label>
+        <textarea id="siteHeroLedeDv" dir="rtl" class="dv-text"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Landing image (English)</label>
+        <img id="siteHeroImageEnPreview" class="settings-image-preview" src="" alt="">
+        <input type="file" id="siteHeroImageEnUpload" accept="image/*">
+      </div>
+      <div class="field">
+        <label>Landing image (Dhivehi)</label>
+        <img id="siteHeroImageDvPreview" class="settings-image-preview" src="" alt="">
+        <input type="file" id="siteHeroImageDvUpload" accept="image/*">
+        <p style="font-size:0.8rem; color:var(--color-ink-soft); margin-top:6px;">
+          Leave this as-is to reuse the English image for Dhivehi visitors too.
+        </p>
+      </div>
+
+      <h3 style="margin-top:36px">Contact page</h3>
+
+      <div class="field">
+        <label>Intro text (English)</label>
+        <textarea id="siteContactBodyEn"></textarea>
+      </div>
+      <div class="field">
+        <label>Intro text (Dhivehi)</label>
+        <textarea id="siteContactBodyDv" dir="rtl" class="dv-text"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="text" id="siteContactEmail">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" id="siteContactPhone">
+      </div>
+      <div class="field">
+        <label>Address (English)</label>
+        <input type="text" id="siteContactAddressEn">
+      </div>
+      <div class="field">
+        <label>Address (Dhivehi)</label>
+        <input type="text" id="siteContactAddressDv" dir="rtl" class="dv-text">
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:12px;">
+        <button class="btn btn-primary" id="saveSiteContentBtn">Save changes</button>
+        <button class="btn btn-secondary" data-nav="admin-dashboard">Cancel</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <h4 data-i18n="footer.linksHeading">Quick links</h4>
+      <p><a href="#" data-nav="medical" data-i18n="nav.medical">Pain &amp; Treatment</a></p>
+      <p><a href="#" data-nav="events" data-i18n="nav.events">News</a></p>
+      <p><a href="#" data-nav="contact" data-i18n="nav.contact">Contact</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX (shared by all galleries) ============ -->
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img id="lightboxImage" src="" alt="">
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
+<script src="data.js"></script>
+<script>
+/* ---------------------------------------------------------------
+   State
+--------------------------------------------------------------- */
+let currentLang = 'en';       // 'en' | 'dv'
+let currentAdmin = null;      // logged-in admin's email, or null
+let currentAdminName = null;  // display name shown in the admin bar
+let editingPostId = null;     // post id being edited, or null for new
+let editorBlocks = [];        // in-progress blocks for the post editor
+let selectedTopic = 'all';    // medical topic filter
+let adminDisplayNames = {};   // email -> display name, for post bylines
+
+// Editable site-wide content (hero + contact). These defaults match what
+// was previously hardcoded, so the site looks identical until an admin
+// edits it — dbFetchSiteSettings() overrides these on load if rows exist.
+let SITE_SETTINGS = {
+  hero: {
+    title: { en: 'Care that starts with understanding your pain', dv: '' },
+    lede: { en: 'The Pain Association of Maldives shares medical information on pain and treatment, and brings the community together through events.', dv: '' },
+    image: { en: 'images/pain-hero.png', dv: 'images/pain-hero.png' }
+  },
+  contact: {
+    body: { en: 'The Pain Association of Maldives brings together clinicians and patients to improve understanding and treatment of chronic pain across the country. Content on this site is reviewed by our medical committee before publication.', dv: '' },
+    email: 'info@painassociation.mv',
+    phone: '+960 000 0000',
+    address: { en: 'Malé, Republic of Maldives', dv: '' }
+  }
+};
+
+function authorDisplay(email) {
+  return adminDisplayNames[email] || email;
+}
+
+const STATIC_STRINGS = {
+  en: {
+    'hero.cta1': 'Learn about your condition',
+    'hero.cta2': 'See news',
+    'home.recentHeading': 'Recent posts',
+    'medical.heading': 'Pain & Treatment',
+    'events.heading': 'News',
+    'contact.heading': 'Contact',
+    'footer.linksHeading': 'Quick links',
+    'nav.medical': 'Pain & Treatment',
+    'nav.events': 'News',
+    'nav.contact': 'Contact',
+    'topics.all': 'All topics',
+    'medical.noPosts': 'No posts in this topic yet.',
+    'events.noPosts': 'No news posted yet.',
+    'cards.readMore': 'Read more'
+  },
+  dv: {
+    'hero.cta1': 'ތިޔަ ފަރާތުގެ ތަދާ ބެހޭގޮތުން މަޢުލޫމާތު ހޯދާށެވެ.',
+    'hero.cta2': 'ޚަބަރުތައް ބަލައިލުމަށް',
+    'home.recentHeading': 'ފަހުގެ ލިޔުންތައް',
+    'medical.heading': 'ތަދާއި ފަރުވާ',
+    'events.heading': 'ޚަބަރު',
+    'contact.heading': 'ގުޅުއްވުމަށް',
+    'nav.medical': 'ތަދާއި ފަރުވާ',
+    'nav.events': 'ޚަބަރު',
+    'nav.contact': 'ގުޅުއްވުމަށް',
+    // Draft translations below — short, non-medical UI strings I attempted
+    // myself. Please have a native speaker check these before they go live;
+    // my confidence in Dhivehi is much lower than in English.
+    'footer.linksHeading': 'އަވަސް ލިންކުތައް',
+    'medical.noPosts': 'މި މައުޟޫޢުގައި އަދި ލިޔުމެއް ނެތް.',
+    'events.noPosts': 'އަދި ޚަބަރެއް ޝާއިޢު ކުރެވިފައި ނެތް.',
+    'cards.readMore': 'އިތުރަށް ވިދާޅުވުމަށް'
+  }
+};
+
+/* ---------------------------------------------------------------
+   i18n helpers
+--------------------------------------------------------------- */
+function t(key) {
+  return (STATIC_STRINGS[currentLang] && STATIC_STRINGS[currentLang][key])
+    || STATIC_STRINGS.en[key] || key;
+}
+
+function tField(field) {
+  // Falls back to whichever language is actually filled in — a post can be
+  // English-only, Dhivehi-only, or both, independently of the site toggle.
+  if (!field) return '';
+  const primary = currentLang === 'dv' ? field.dv : field.en;
+  const fallback = currentLang === 'dv' ? field.en : field.dv;
+  return primary || fallback || '';
+}
+
+// Which language a field's displayed text actually is, after fallback —
+// null if the field is empty in both languages.
+function tFieldLang(field) {
+  if (!field) return null;
+  const primary = currentLang === 'dv' ? field.dv : field.en;
+  if (primary) return currentLang;
+  const fallback = currentLang === 'dv' ? field.en : field.dv;
+  if (fallback) return currentLang === 'dv' ? 'en' : 'dv';
+  return null;
+}
+
+// Renders a field's text wrapped with the correct script/direction when it
+// falls back to the language the site isn't currently displaying in — so a
+// Dhivehi-only post still shows properly in Thaana/RTL even while browsing
+// in English, instead of Latin-styled, left-to-right Thaana text.
+function renderField(field) {
+  const text = tField(field);
+  if (!text) return '';
+  const lang = tFieldLang(field);
+  if (lang === 'dv' && currentLang !== 'dv') return `<span dir="rtl" class="dv-text">${text}</span>`;
+  if (lang === 'en' && currentLang === 'dv') return `<span dir="ltr" style="font-family:var(--font-body)">${text}</span>`;
+  return text;
+}
+
+// Small badge shown when a post's language doesn't match the site toggle,
+// so it's clear why (say) Dhivehi text is showing up while browsing in English.
+function languageBadge(field) {
+  const lang = tFieldLang(field);
+  if (!lang || lang === currentLang) return '';
+  const label = lang === 'dv' ? 'Dhivehi only' : 'English only';
+  return ` · <span style="font-size:0.75rem; background:var(--color-tint); color:var(--color-deep); padding:2px 9px; border-radius:999px;">${label}</span>`;
+}
+
+function applyStaticI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-key]').forEach(el => {
+    const key = el.getAttribute('data-i18n-key');
+    if (key === 'site.name') el.textContent = tField(SITE.name);
+  });
+}
+
+function renderSiteContent() {
+  document.getElementById('heroTitle').innerHTML = renderField(SITE_SETTINGS.hero.title);
+  document.getElementById('heroLede').innerHTML = renderField(SITE_SETTINGS.hero.lede);
+  document.getElementById('heroImage').src =
+    SITE_SETTINGS.hero.image[currentLang] || SITE_SETTINGS.hero.image.en || SITE_SETTINGS.hero.image.dv || '';
+
+  document.getElementById('contactBody').innerHTML = renderField(SITE_SETTINGS.contact.body);
+  renderContact();
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'dv' ? 'rtl' : 'ltr';
+  document.getElementById('langToggle').textContent = lang === 'dv' ? 'English' : 'ދިވެހި';
+  applyStaticI18n();
+  renderSiteContent();
+  renderNav();
+  renderCurrentView();
+}
+
+/* ---------------------------------------------------------------
+   Navigation / view switching
+--------------------------------------------------------------- */
+let currentView = 'home';
+let currentPostId = null;
+
+function renderNav() {
+  const nav = document.getElementById('navLinks');
+  nav.innerHTML = '';
+  NAV.forEach(item => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = tField(item);
+    a.dataset.nav = item.key;
+    if (currentView === item.key) a.classList.add('active');
+    nav.appendChild(li);
+    li.appendChild(a);
+  });
+}
+
+function goTo(view, extra) {
+  currentView = view;
+  if (view === 'post') currentPostId = extra;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + view);
+  if (target) target.classList.add('active');
+  window.scrollTo(0, 0);
+  renderNav();
+  renderCurrentView();
+}
+
+function renderCurrentView() {
+  if (currentView === 'home') renderHome();
+  if (currentView === 'medical') renderMedicalList();
+  if (currentView === 'events') renderEventsList();
+  if (currentView === 'post') renderPostDetail(currentPostId);
+  if (currentView === 'contact') renderContact();
+  if (currentView === 'admin-dashboard') renderAdminDashboard();
+}
+
+document.addEventListener('click', (e) => {
+  const navEl = e.target.closest('[data-nav]');
+  if (navEl) {
+    e.preventDefault();
+    goTo(navEl.dataset.nav);
+  }
+});
+
+document.getElementById('adminLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  setLang('en');
+  goTo(currentAdmin ? 'admin-dashboard' : 'admin-login');
+});
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  setLang(currentLang === 'en' ? 'dv' : 'en');
+});
+
+/* ---------------------------------------------------------------
+   Lightbox — shared by every post's gallery carousel
+--------------------------------------------------------------- */
+function openLightbox(src) {
+  document.getElementById('lightboxImage').src = src;
+  document.getElementById('lightboxOverlay').classList.add('active');
+}
+
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('active');
+}
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+// Closes on a click anywhere on the dark backdrop, but not on the image
+// itself or the close button — only exact clicks on the overlay element.
+document.getElementById('lightboxOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'lightboxOverlay') closeLightbox();
+});
+
+/* ---------------------------------------------------------------
+   Post card + listing rendering
+--------------------------------------------------------------- */
+function postCard(post) {
+  const catLabel = tField(CATEGORIES[post.category]);
+  const thumb = post.thumbnail ? `<img class="card-thumb" src="${post.thumbnail}" alt="">` : '';
+  return `
+    <div class="card" data-post-id="${post.id}" style="cursor:pointer">
+      ${thumb}
+      <div class="meta">${catLabel} · ${post.date}${languageBadge(post.title)}</div>
+      <h3>${renderField(post.title)}</h3>
+      <p>${renderField(post.excerpt)}</p>
+      <span class="read-more-link">${t('cards.readMore')}</span>
+    </div>`;
+}
+
+function attachPostCardHandlers(container) {
+  container.querySelectorAll('[data-post-id]').forEach(el => {
+    el.addEventListener('click', () => goTo('post', el.dataset.postId));
+  });
+}
+
+function renderHome() {
+  const grid = document.getElementById('homeRecentGrid');
+  const recent = [...POSTS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+  grid.innerHTML = recent.map(postCard).join('');
+  attachPostCardHandlers(grid);
+}
+
+function renderMedicalList() {
+  const pills = document.getElementById('topicPills');
+  const allPill = `<button class="topic-pill ${selectedTopic === 'all' ? 'active' : ''}" data-topic="all">${t('topics.all')}</button>`;
+  pills.innerHTML = allPill + MEDICAL_TOPICS.map(topic =>
+    `<button class="topic-pill ${selectedTopic === topic.key ? 'active' : ''}" data-topic="${topic.key}">${tField(topic)}</button>`
+  ).join('');
+  pills.querySelectorAll('[data-topic]').forEach(btn => {
+    btn.addEventListener('click', () => { selectedTopic = btn.dataset.topic; renderMedicalList(); });
+  });
+
+  const grid = document.getElementById('medicalGrid');
+  const filtered = POSTS.filter(p => p.category === 'medical' &&
+    (selectedTopic === 'all' || p.topic === selectedTopic));
+  grid.innerHTML = filtered.length ? filtered.map(postCard).join('')
+    : `<p style="color:var(--color-ink-soft)">${t('medical.noPosts')}</p>`;
+  attachPostCardHandlers(grid);
+}
+
+function renderEventsList() {
+  const grid = document.getElementById('eventsGrid');
+  const events = POSTS.filter(p => p.category === 'events')
+    .sort((a, b) => b.date.localeCompare(a.date));
+  grid.innerHTML = events.length ? events.map(postCard).join('')
+    : `<p style="color:var(--color-ink-soft)">${t('events.noPosts')}</p>`;
+  attachPostCardHandlers(grid);
+}
+
+function renderContact() {
+  const c = SITE_SETTINGS.contact;
+  document.getElementById('contactDetails').innerHTML =
+    `${renderField(c.address)}<br><span dir="ltr" style="unicode-bidi:isolate">${c.email}</span><br><span dir="ltr" style="unicode-bidi:isolate">${c.phone}</span>`;
+}
+
+/* ---------------------------------------------------------------
+   Post detail — renders the block sequence + optional gallery
+--------------------------------------------------------------- */
+function carouselHtml(images) {
+  return `
+    <div class="gallery-carousel">
+      <button class="carousel-btn carousel-prev" aria-label="Previous image">&#10094;</button>
+      <div class="carousel-viewport">
+        <img class="carousel-image" id="carouselImage" src="${images[0]}" alt="">
+        <div class="carousel-counter" id="carouselCounter">1 / ${images.length}</div>
+      </div>
+      <button class="carousel-btn carousel-next" aria-label="Next image">&#10095;</button>
+    </div>`;
+}
+
+let carouselImages = [];
+let carouselIndex = 0;
+
+function showCarouselImage(index) {
+  const total = carouselImages.length;
+  carouselIndex = (index + total) % total; // wraps both directions
+  document.getElementById('carouselImage').src = carouselImages[carouselIndex];
+  document.getElementById('carouselCounter').textContent = `${carouselIndex + 1} / ${total}`;
+}
+
+function renderPostDetail(postId) {
+  const post = POSTS.find(p => p.id === postId);
+  const container = document.getElementById('postContainer');
+  if (!post) { container.innerHTML = '<p>Post not found.</p>'; return; }
+
+  const hasGallery = post.gallery && post.gallery.images.length > 0;
+  const galleryTopHtml = hasGallery && post.gallery.position === 'top' ? carouselHtml(post.gallery.images) : '';
+  const galleryBottomHtml = hasGallery && post.gallery.position === 'bottom' ? carouselHtml(post.gallery.images) : '';
+
+  let html = `
+    <div class="post-header">
+      <div class="meta">${tField(CATEGORIES[post.category])} · ${post.date} · by ${authorDisplay(post.author)}${languageBadge(post.title)}</div>
+      <h1>${renderField(post.title)}</h1>
+      ${post.reviewedDate ? `<div class="reviewed">Medically reviewed ${post.reviewedDate}</div>` : ''}
+    </div>`;
+
+  html += galleryTopHtml;
+
+  html += `<div class="post-body">`;
+  post.blocks.forEach(block => {
+    if (block.type === 'text') {
+      html += `<p class="post-block-text">${renderField(block)}</p>`;
+    } else if (block.type === 'image') {
+      html += `
+        <figure class="post-block-image">
+          <img src="${block.src}" alt="${tField(block.caption)}">
+          <figcaption>${renderField(block.caption)}</figcaption>
+        </figure>`;
+    }
+  });
+  html += `</div>`;
+
+  html += galleryBottomHtml;
+
+  container.innerHTML = html;
+
+  if (hasGallery) {
+    carouselImages = post.gallery.images;
+    carouselIndex = 0;
+    document.querySelector('.carousel-prev').addEventListener('click', () => showCarouselImage(carouselIndex - 1));
+    document.querySelector('.carousel-next').addEventListener('click', () => showCarouselImage(carouselIndex + 1));
+    document.getElementById('carouselImage').addEventListener('click', () => openLightbox(carouselImages[carouselIndex]));
+  }
+}
+
+/* ---------------------------------------------------------------
+   Admin — login
+--------------------------------------------------------------- */
+document.getElementById('adminLoginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('adminUsername').value.trim();
+  const password = document.getElementById('adminPassword').value;
+  const errEl = document.getElementById('adminLoginError');
+  const btn = document.getElementById('adminLoginBtn');
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  const result = await dbLogin(email, password);
+  btn.disabled = false;
+  btn.textContent = 'Sign in';
+
+  if (result.ok) {
+    currentAdmin = result.email;
+    currentAdminName = await dbGetAdminDisplayName(result.email) || result.email;
+    errEl.textContent = '';
+    goTo('admin-dashboard');
+  } else {
+    errEl.textContent = result.message || 'Email or password is incorrect.';
+  }
+});
+
+document.getElementById('togglePasswordBtn').addEventListener('click', () => {
+  const pwField = document.getElementById('adminPassword');
+  const isHidden = pwField.type === 'password';
+  pwField.type = isHidden ? 'text' : 'password';
+  document.getElementById('togglePasswordBtn').textContent = isHidden ? 'Hide' : 'Show';
+});
+
+document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
+  await dbLogout();
+  currentAdmin = null;
+  currentAdminName = null;
+  goTo('home');
+});
+
+/* ---------------------------------------------------------------
+   Admin — dashboard
+--------------------------------------------------------------- */
+function renderAdminDashboard() {
+  document.getElementById('adminWhoAmI').textContent = currentAdminName || currentAdmin || '';
+  const list = document.getElementById('adminPostList');
+  const sorted = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+  list.innerHTML = sorted.map(post => `
+    <div class="post-list-row">
+      <div>
+        <div class="title">${renderField(post.title)}</div>
+        <div class="meta">${tField(CATEGORIES[post.category])} · ${post.date} · ${authorDisplay(post.author)}</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary btn-small" data-edit="${post.id}">Edit</button>
+        <button class="btn btn-danger btn-small" data-delete="${post.id}">Delete</button>
+      </div>
+    </div>`).join('');
+
+  list.querySelectorAll('[data-edit]').forEach(btn =>
+    btn.addEventListener('click', () => openEditor(btn.dataset.edit)));
+  list.querySelectorAll('[data-delete]').forEach(btn =>
+    btn.addEventListener('click', async () => {
+      if (!confirm('Delete this post?')) return;
+      btn.disabled = true;
+      try {
+        await dbDeletePost(btn.dataset.delete);
+        await refreshPosts();
+        renderAdminDashboard();
+      } catch (err) {
+        alert('Could not delete this post: ' + err.message);
+        btn.disabled = false;
+      }
+    }));
+}
+
+document.getElementById('newPostBtn').addEventListener('click', () => openEditor(null));
+
+document.getElementById('editSiteContentBtn').addEventListener('click', () => openSiteContentEditor());
+
+function openSiteContentEditor() {
+  setLang('en');
+  const hero = SITE_SETTINGS.hero;
+  const contact = SITE_SETTINGS.contact;
+
+  document.getElementById('siteHeroTitleEn').value = hero.title.en || '';
+  document.getElementById('siteHeroTitleDv').value = hero.title.dv || '';
+  document.getElementById('siteHeroLedeEn').value = hero.lede.en || '';
+  document.getElementById('siteHeroLedeDv').value = hero.lede.dv || '';
+  document.getElementById('siteHeroImageEnPreview').src = hero.image.en || '';
+  document.getElementById('siteHeroImageDvPreview').src = hero.image.dv || hero.image.en || '';
+
+  document.getElementById('siteContactBodyEn').value = contact.body.en || '';
+  document.getElementById('siteContactBodyDv').value = contact.body.dv || '';
+  document.getElementById('siteContactEmail').value = contact.email || '';
+  document.getElementById('siteContactPhone').value = contact.phone || '';
+  document.getElementById('siteContactAddressEn').value = contact.address.en || '';
+  document.getElementById('siteContactAddressDv').value = contact.address.dv || '';
+
+  goTo('admin-site');
+}
+
+document.getElementById('siteHeroImageEnUpload').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.disabled = true;
+  try {
+    const url = await dbUploadImage(file);
+    document.getElementById('siteHeroImageEnPreview').src = url;
+    document.getElementById('siteHeroImageEnPreview').dataset.pendingUrl = url;
+  } catch (err) {
+    alert('Image upload failed: ' + err.message);
+  } finally {
+    e.target.disabled = false;
+  }
+});
+
+document.getElementById('siteHeroImageDvUpload').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.disabled = true;
+  try {
+    const url = await dbUploadImage(file);
+    document.getElementById('siteHeroImageDvPreview').src = url;
+    document.getElementById('siteHeroImageDvPreview').dataset.pendingUrl = url;
+  } catch (err) {
+    alert('Image upload failed: ' + err.message);
+  } finally {
+    e.target.disabled = false;
+  }
+});
+
+document.getElementById('saveSiteContentBtn').addEventListener('click', async () => {
+  const heroImageEn = document.getElementById('siteHeroImageEnPreview').dataset.pendingUrl
+    || SITE_SETTINGS.hero.image.en;
+  const heroImageDv = document.getElementById('siteHeroImageDvPreview').dataset.pendingUrl
+    || SITE_SETTINGS.hero.image.dv;
+
+  const newHero = {
+    title: {
+      en: document.getElementById('siteHeroTitleEn').value.trim(),
+      dv: document.getElementById('siteHeroTitleDv').value.trim()
+    },
+    lede: {
+      en: document.getElementById('siteHeroLedeEn').value.trim(),
+      dv: document.getElementById('siteHeroLedeDv').value.trim()
+    },
+    image: { en: heroImageEn, dv: heroImageDv }
+  };
+
+  const newContact = {
+    body: {
+      en: document.getElementById('siteContactBodyEn').value.trim(),
+      dv: document.getElementById('siteContactBodyDv').value.trim()
+    },
+    email: document.getElementById('siteContactEmail').value.trim(),
+    phone: document.getElementById('siteContactPhone').value.trim(),
+    address: {
+      en: document.getElementById('siteContactAddressEn').value.trim(),
+      dv: document.getElementById('siteContactAddressDv').value.trim()
+    }
+  };
+
+  const btn = document.getElementById('saveSiteContentBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    await dbUpdateSiteSetting('hero', newHero);
+    await dbUpdateSiteSetting('contact', newContact);
+    SITE_SETTINGS.hero = newHero;
+    SITE_SETTINGS.contact = newContact;
+    renderSiteContent();
+    goTo('admin-dashboard');
+  } catch (err) {
+    alert('Could not save site content: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save changes';
+  }
+});
+
+/* ---------------------------------------------------------------
+   Admin — post editor (block builder)
+--------------------------------------------------------------- */
+function populateTopicSelect() {
+  const sel = document.getElementById('editTopic');
+  sel.innerHTML = MEDICAL_TOPICS.map(t => `<option value="${t.key}">${t.en}</option>`).join('');
+}
+populateTopicSelect();
+
+document.getElementById('editCategory').addEventListener('change', (e) => {
+  document.getElementById('editTopicField').style.display =
+    e.target.value === 'medical' ? 'block' : 'none';
+});
+
+document.getElementById('editThumbnailUpload').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.disabled = true;
+  try {
+    const url = await dbUploadImage(file);
+    document.getElementById('editThumbnail').value = url;
+    const preview = document.getElementById('editThumbnailPreview');
+    preview.src = url;
+    preview.style.display = 'block';
+  } catch (err) {
+    alert('Image upload failed: ' + err.message);
+  } finally {
+    e.target.disabled = false;
+  }
+});
+
+document.getElementById('editThumbnail').addEventListener('input', (e) => {
+  const preview = document.getElementById('editThumbnailPreview');
+  preview.src = e.target.value.trim();
+  preview.style.display = e.target.value.trim() ? 'block' : 'none';
+});
+
+document.getElementById('editGalleryPosition').addEventListener('change', (e) => {
+  document.getElementById('editGalleryImagesField').style.display =
+    e.target.value === 'none' ? 'none' : 'block';
+});
+
+document.getElementById('galleryUploadInput').addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  e.target.disabled = true;
+  const textarea = document.getElementById('editGalleryImages');
+  try {
+    for (const file of files) {
+      const url = await dbUploadImage(file);
+      textarea.value = (textarea.value.trim() + '\n' + url).trim();
+    }
+  } catch (err) {
+    alert('Image upload failed: ' + err.message);
+  } finally {
+    e.target.disabled = false;
+    e.target.value = '';
+  }
+});
+
+function openEditor(postId) {
+  setLang('en');
+  editingPostId = postId;
+  const post = postId ? POSTS.find(p => p.id === postId) : null;
+
+  document.getElementById('editorHeading').textContent = post ? 'Edit post' : 'New post';
+  document.getElementById('editCategory').value = post ? post.category : 'medical';
+  document.getElementById('editTopicField').style.display =
+    (post ? post.category : 'medical') === 'medical' ? 'block' : 'none';
+  document.getElementById('editTopic').value = post && post.topic ? post.topic : MEDICAL_TOPICS[0].key;
+
+  document.getElementById('editTitleEn').value = post ? post.title.en : '';
+  document.getElementById('editTitleDv').value = post ? (post.title.dv || '') : '';
+
+  document.getElementById('editExcerptEn').value = post ? post.excerpt.en : '';
+  document.getElementById('editExcerptDv').value = post ? (post.excerpt.dv || '') : '';
+
+  document.getElementById('editThumbnail').value = post ? (post.thumbnail || '') : '';
+  const thumbPreview = document.getElementById('editThumbnailPreview');
+  thumbPreview.src = post && post.thumbnail ? post.thumbnail : '';
+  thumbPreview.style.display = post && post.thumbnail ? 'block' : 'none';
+
+  const galleryPos = post ? post.gallery.position : 'none';
+  document.getElementById('editGalleryPosition').value = galleryPos;
+  document.getElementById('editGalleryImagesField').style.display = galleryPos === 'none' ? 'none' : 'block';
+  document.getElementById('editGalleryImages').value = post ? post.gallery.images.join('\n') : '';
+
+  editorBlocks = post ? JSON.parse(JSON.stringify(post.blocks)) : [];
+  renderBlockEditor();
+  goTo('admin-editor');
+}
+
+function renderBlockEditor() {
+  const wrap = document.getElementById('blockEditorList');
+  wrap.innerHTML = editorBlocks.map((block, i) => {
+    if (block.type === 'text') {
+      return `
+        <div class="block-editor-row" data-index="${i}">
+          <div class="block-controls">
+            <span class="block-type-label">Text block</span>
+            <div class="block-controls-btns">
+              <button class="icon-btn" data-move="up" data-index="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
+              <button class="icon-btn" data-move="down" data-index="${i}" ${i === editorBlocks.length - 1 ? 'disabled' : ''}>↓</button>
+              <button class="icon-btn" data-remove="${i}">Remove</button>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label>English text</label>
+            <textarea data-field="en" data-index="${i}">${block.en || ''}</textarea>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Dhivehi text (optional)</label>
+            <textarea data-field="dv" data-index="${i}" dir="rtl" style="font-family:'Noto Sans Thaana', sans-serif;">${block.dv || ''}</textarea>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="block-editor-row" data-index="${i}">
+        <div class="block-controls">
+          <span class="block-type-label">Image block</span>
+          <div class="block-controls-btns">
+            <button class="icon-btn" data-move="up" data-index="${i}" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="icon-btn" data-move="down" data-index="${i}" ${i === editorBlocks.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="icon-btn" data-remove="${i}">Remove</button>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:8px">
+          <label>Image</label>
+          <input type="file" class="block-image-upload" data-upload-index="${i}" accept="image/*">
+          <input type="text" data-field="src" data-index="${i}" value="${block.src || ''}" placeholder="https://..." style="margin-top:8px">
+        </div>
+        <div class="field" style="margin-bottom:8px">
+          <label>Caption (English)</label>
+          <input type="text" data-field="caption" data-index="${i}" value="${(block.caption && block.caption.en) || ''}">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Caption (Dhivehi)</label>
+          <input type="text" data-field="captionDv" data-index="${i}" value="${(block.caption && block.caption.dv) || ''}" dir="rtl" class="dv-text">
+        </div>
+      </div>`;
+  }).join('') || '<p style="color:var(--color-ink-soft)">No content blocks yet — add a text or image block below.</p>';
+
+  wrap.querySelectorAll('[data-field]').forEach(el => {
+    el.addEventListener('input', () => {
+      const i = parseInt(el.dataset.index, 10);
+      const field = el.dataset.field;
+      if (field === 'en' || field === 'dv') editorBlocks[i][field] = el.value;
+      if (field === 'src') editorBlocks[i].src = el.value;
+      if (field === 'caption') {
+        editorBlocks[i].caption = editorBlocks[i].caption || { en: '', dv: '' };
+        editorBlocks[i].caption.en = el.value;
+      }
+      if (field === 'captionDv') {
+        editorBlocks[i].caption = editorBlocks[i].caption || { en: '', dv: '' };
+        editorBlocks[i].caption.dv = el.value;
+      }
+    });
+  });
+
+  wrap.querySelectorAll('.block-image-upload').forEach(input => {
+    input.addEventListener('change', async () => {
+      const file = input.files[0];
+      if (!file) return;
+      input.disabled = true;
+      try {
+        const url = await dbUploadImage(file);
+        const i = parseInt(input.dataset.uploadIndex, 10);
+        editorBlocks[i].src = url;
+        renderBlockEditor();
+      } catch (err) {
+        alert('Image upload failed: ' + err.message);
+        input.disabled = false;
+      }
+    });
+  });
+
+  wrap.querySelectorAll('[data-move]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.index, 10);
+      const dir = btn.dataset.move === 'up' ? -1 : 1;
+      const j = i + dir;
+      [editorBlocks[i], editorBlocks[j]] = [editorBlocks[j], editorBlocks[i]];
+      renderBlockEditor();
+    });
+  });
+
+  wrap.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      editorBlocks.splice(parseInt(btn.dataset.remove, 10), 1);
+      renderBlockEditor();
+    });
+  });
+}
+
+document.getElementById('addTextBlockBtn').addEventListener('click', () => {
+  editorBlocks.push({ type: 'text', en: '', dv: '' });
+  renderBlockEditor();
+});
+document.getElementById('addImageBlockBtn').addEventListener('click', () => {
+  editorBlocks.push({ type: 'image', src: '', caption: { en: '', dv: '' } });
+  renderBlockEditor();
+});
+
+async function refreshPosts() {
+  POSTS = await dbFetchPosts();
+}
+
+document.getElementById('savePostBtn').addEventListener('click', async () => {
+  const category = document.getElementById('editCategory').value;
+  const titleEn = document.getElementById('editTitleEn').value.trim();
+  const titleDv = document.getElementById('editTitleDv').value.trim();
+  if (!titleEn && !titleDv) { alert('Enter a title in at least one language — English or Dhivehi.'); return; }
+
+  const galleryPosition = document.getElementById('editGalleryPosition').value;
+  const galleryImages = document.getElementById('editGalleryImages').value
+    .split('\n').map(s => s.trim()).filter(Boolean);
+
+  const postData = {
+    category: category,
+    topic: category === 'medical' ? document.getElementById('editTopic').value : null,
+    title: { en: titleEn, dv: titleDv },
+    excerpt: {
+      en: document.getElementById('editExcerptEn').value.trim(),
+      dv: document.getElementById('editExcerptDv').value.trim()
+    },
+    thumbnail: document.getElementById('editThumbnail').value.trim(),
+    author: currentAdmin,
+    reviewedDate: editingPostId ? (POSTS.find(p => p.id === editingPostId) || {}).reviewedDate : null,
+    gallery: { position: galleryPosition, images: galleryImages },
+    blocks: editorBlocks
+  };
+
+  const btn = document.getElementById('savePostBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    if (editingPostId) {
+      await dbUpdatePost(editingPostId, postData);
+    } else {
+      await dbCreatePost(postData);
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Save post';
+    alert('Could not save this post: ' + err.message);
+    return;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Save post';
+  await refreshPosts();
+  goTo('admin-dashboard');
+});
+
+/* ---------------------------------------------------------------
+   Init
+--------------------------------------------------------------- */
+(async function init() {
+  const fetchedSettings = await dbFetchSiteSettings();
+  if (fetchedSettings.hero) SITE_SETTINGS.hero = fetchedSettings.hero;
+  if (fetchedSettings.contact) SITE_SETTINGS.contact = fetchedSettings.contact;
+
+  setLang('en');
+
+  const restoredEmail = await dbCurrentAdminEmail();
+  if (restoredEmail) {
+    currentAdmin = restoredEmail;
+    currentAdminName = await dbGetAdminDisplayName(restoredEmail) || restoredEmail;
+  }
+
+  adminDisplayNames = await dbFetchAdminDisplayNames();
+  await refreshPosts();
+  goTo('home');
+})();
+</script>
+</body>
+</html>
