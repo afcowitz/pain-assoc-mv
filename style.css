@@ -134,7 +134,7 @@ html[dir="rtl"] .brand { font-family: var(--font-thaana); }
   font-size: 0.95rem;
 }
 .nav-links a:hover { color: #fff; }
-.nav-links a.active { color: var(--color-accent); }
+.nav-links a.active { color: #f0d3f0; }
 
 html[dir="rtl"] .nav-links a {
   font-size: 1.1rem;
@@ -322,11 +322,11 @@ section { padding-block: 48px; }
 
 .post-body { max-width: var(--measure); margin-inline: auto; overflow-wrap: break-word; word-break: break-word; }
 
-.post-block-text { font-size: 1.05rem; }
+.post-block-text { font-size: 1.20rem; }
 .post-block-image { margin-block: 24px; }
 .post-block-image img { border-radius: var(--radius); }
 .post-block-image figcaption {
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   color: var(--color-ink-soft);
   margin-top: 8px;
 }

@@ -476,9 +476,52 @@ function setLang(lang) {
 
 /* ---------------------------------------------------------------
    Navigation / view switching
+   Public views (home/medical/events/contact/post) live in the URL hash
+   as #/<lang>/<view> or #/<lang>/post/<id>, so refresh, back/forward,
+   and shared links all land on the right page. Admin views deliberately
+   stay out of the URL — they depend on login/session state and
+   in-progress form data that a link can't restore anyway.
 --------------------------------------------------------------- */
 let currentView = 'home';
 let currentPostId = null;
+
+const PUBLIC_VIEWS = ['home', 'medical', 'events', 'contact', 'post'];
+
+function buildHash(lang, view, postId) {
+  if (view === 'post' && postId) return `#/${lang}/post/${postId}`;
+  return `#/${lang}/${view}`;
+}
+
+function parseHash() {
+  const raw = (window.location.hash || '').replace(/^#\/?/, '');
+  const parts = raw.split('/').filter(Boolean);
+  const lang = parts[0] === 'dv' ? 'dv' : 'en';
+  let view = parts[1] || 'home';
+  if (!PUBLIC_VIEWS.includes(view)) view = 'home';
+  const postId = view === 'post' ? (parts[2] || null) : null;
+  if (view === 'post' && !postId) view = 'home'; // malformed post link
+  return { lang, view, postId };
+}
+
+function showView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + view);
+  if (target) target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// Reads the current hash and renders accordingly. Runs on every
+// hashchange (back/forward, or our own navigation below setting a new
+// hash) and once on startup.
+function applyRoute() {
+  const { lang, view, postId } = parseHash();
+  currentView = view;
+  currentPostId = postId;
+  showView(view);
+  setLang(lang);
+}
+
+window.addEventListener('hashchange', applyRoute);
 
 function renderNav() {
   const nav = document.getElementById('navLinks');
@@ -496,12 +539,16 @@ function renderNav() {
 }
 
 function goTo(view, extra) {
+  if (PUBLIC_VIEWS.includes(view)) {
+    // Setting the hash triggers the hashchange listener above, which
+    // does the actual rendering — this keeps one code path for "arrived
+    // here via a click" and "arrived here via back/forward/a shared link".
+    window.location.hash = buildHash(currentLang, view, view === 'post' ? extra : null);
+    return;
+  }
+  // Admin views: render immediately, no URL involved.
   currentView = view;
-  if (view === 'post') currentPostId = extra;
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  const target = document.getElementById('view-' + view);
-  if (target) target.classList.add('active');
-  window.scrollTo(0, 0);
+  showView(view);
   renderNav();
   renderCurrentView();
 }
@@ -530,7 +577,13 @@ document.getElementById('adminLink').addEventListener('click', (e) => {
 });
 
 document.getElementById('langToggle').addEventListener('click', () => {
-  setLang(currentLang === 'en' ? 'dv' : 'en');
+  const newLang = currentLang === 'en' ? 'dv' : 'en';
+  if (PUBLIC_VIEWS.includes(currentView)) {
+    window.location.hash = buildHash(newLang, currentView, currentPostId);
+  } else {
+    // Admin views aren't URL-routed — just apply it directly.
+    setLang(newLang);
+  }
 });
 
 /* ---------------------------------------------------------------
@@ -1126,8 +1179,6 @@ document.getElementById('savePostBtn').addEventListener('click', async () => {
   if (fetchedSettings.hero) SITE_SETTINGS.hero = fetchedSettings.hero;
   if (fetchedSettings.contact) SITE_SETTINGS.contact = fetchedSettings.contact;
 
-  setLang('en');
-
   const restoredEmail = await dbCurrentAdminEmail();
   if (restoredEmail) {
     currentAdmin = restoredEmail;
@@ -1136,7 +1187,11 @@ document.getElementById('savePostBtn').addEventListener('click', async () => {
 
   adminDisplayNames = await dbFetchAdminDisplayNames();
   await refreshPosts();
-  goTo('home');
+
+  if (!window.location.hash) {
+    window.location.hash = buildHash('en', 'home', null);
+  }
+  applyRoute();
 })();
 </script>
 </body>
