@@ -117,6 +117,7 @@ img { max-width: 100%; display: block; }
   color: #fff;
   font-weight: 600;
 }
+.brand:hover { color: #fff; text-decoration: none; opacity: 0.85; }
 html[dir="rtl"] .brand { font-family: var(--font-thaana); }
 
 .nav-links {
@@ -133,7 +134,7 @@ html[dir="rtl"] .brand { font-family: var(--font-thaana); }
   font-size: 0.95rem;
 }
 .nav-links a:hover { color: #fff; }
-.nav-links a.active { color: #F5E3FF }
+.nav-links a.active { color: var(--color-accent); }
 
 html[dir="rtl"] .nav-links a {
   font-size: 1.1rem;
@@ -321,11 +322,11 @@ section { padding-block: 48px; }
 
 .post-body { max-width: var(--measure); margin-inline: auto; overflow-wrap: break-word; word-break: break-word; }
 
-.post-block-text { font-size: 1.20rem; }
+.post-block-text { font-size: 1.05rem; }
 .post-block-image { margin-block: 24px; }
 .post-block-image img { border-radius: var(--radius); }
 .post-block-image figcaption {
-  font-size: 1.05rem;
+  font-size: 0.85rem;
   color: var(--color-ink-soft);
   margin-top: 8px;
 }
