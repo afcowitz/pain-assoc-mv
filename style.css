@@ -134,7 +134,7 @@ html[dir="rtl"] .brand { font-family: var(--font-thaana); }
   font-size: 0.95rem;
 }
 .nav-links a:hover { color: #fff; }
-.nav-links a.active { color: #f0d3f0; }
+.nav-links a.active { color: #f7e9f6; }
 
 html[dir="rtl"] .nav-links a {
   font-size: 1.1rem;
